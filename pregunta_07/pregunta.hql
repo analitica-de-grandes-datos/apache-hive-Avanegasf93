@@ -45,4 +45,19 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Elimina la tabla "counter" si existe
+DROP TABLE IF EXISTS counter;
+
+-- Crea una nueva tabla llamada "counter" y la popula con los resultados de la consulta
+CREATE TABLE counter AS
+    SELECT c2,
+    CONCAT_WS(':', COLLECT_LIST(CAST(c1 AS STRING))) AS numbers
+    FROM tbl0
+    GROUP BY c2;
+
+-- Guarda los resultados de la consulta en un directorio local llamado "./output"
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    SELECT * FROM counter;
 
