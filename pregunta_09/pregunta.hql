@@ -45,4 +45,26 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Guarda los resultados de la consulta en un directorio local llamado "output"
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
+
+-- Establece el formato de fila como delimitado
+ROW FORMAT DELIMITED 
+
+-- Establece que los campos estén separados por coma
+FIELDS TERMINATED BY ','
+
+-- Establece que los elementos de colección estén separados por dos puntos
+COLLECTION ITEMS TERMINATED BY ':'
+
+-- Establece que las claves del mapa estén separadas por #
+MAP KEYS TERMINATED BY '#'
+
+-- Establece que cada línea esté terminada por un salto de línea
+LINES TERMINATED BY '\n'
+
+-- Realiza la consulta y selecciona las siguientes columnas
+SELECT t1.c1, t1.c2, t2.c4[t1.c2]
+FROM tbl0 t1
+JOIN tbl1 t2 ON (t1.c1 = t2.c1);
 

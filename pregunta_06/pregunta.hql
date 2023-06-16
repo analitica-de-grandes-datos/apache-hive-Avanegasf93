@@ -45,4 +45,27 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Guarda los resultados de la consulta en un directorio local llamado "output"
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
+
+-- Establece el formato de fila como delimitado
+ROW FORMAT DELIMITED 
+
+-- Establece que los campos estén separados por coma
+FIELDS TERMINATED BY ','
+
+-- Establece que los elementos de colección estén separados por coma
+COLLECTION ITEMS TERMINATED BY ','
+
+-- Establece que las claves del mapa estén separadas por #
+MAP KEYS TERMINATED BY '#'
+
+-- Establece que cada línea esté terminada por un salto de línea
+LINES TERMINATED BY '\n'
+
+-- Realiza la consulta y aplica las siguientes transformaciones al campo c5
+SELECT UPPER(CONCAT_WS(':', c5))
+
+-- De la tabla llamada "tbl0"
+FROM tbl0;
 

@@ -29,4 +29,17 @@ LOAD DATA LOCAL INPATH 'data.tsv' INTO TABLE t0;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Crea una nueva tabla llamada "ANS_1" y la popula con los resultados de la consulta
+CREATE TABLE ANS_1 AS
+    SELECT key, value
+    FROM t0
+    LATERAL VIEW EXPLODE(c3) List;
+
+-- Guarda los resultados de la consulta en un directorio local llamado "./output"
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    SELECT Key, COUNT(1)
+    FROM ANS_1
+    GROUP BY key;
 

@@ -46,4 +46,27 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
+-- Elimina la tabla "counter" si existe
+DROP TABLE IF EXISTS counter;
+
+-- Crea una nueva tabla llamada "counter" y la popula con los resultados de la consulta
+CREATE TABLE counter AS
+    SELECT
+        c2 AS word,
+        number
+    FROM
+        tbl0
+    LATERAL VIEW explode(map_values(c6)) tbl0 AS number;
+
+-- Guarda los resultados de la consulta en un directorio local llamado "./output"
+INSERT OVERWRITE LOCAL DIRECTORY './output'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    SELECT
+        word,
+        SUM(number)
+    FROM
+        counter
+    GROUP BY
+        word;
 
