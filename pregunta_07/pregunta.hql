@@ -45,17 +45,13 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 /*
     >>> Escriba su respuesta a partir de este punto <<<
 */
--- Crear una tabla temporal para contar los valores únicos de c2 junto con los valores correspondientes de c1
-DROP TABLE IF EXISTS counter;
-CREATE TABLE counter AS
-SELECT c2, CONCAT_WS(':', COLLECT_LIST(CAST(c1 AS STRING))) AS numbers
-FROM tbl0
-GROUP BY c2;
 
--- Guardar el resultado en la carpeta "output" del directorio de trabajo
+DROP TABLE IF EXISTS counter;
+CREATE TABLE counter AS SELECT c2, 
+concat_ws(':',collect_list(cast(c1 as string))) as numbers
+FROM tbl0 GROUP BY c2;
 INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-SELECT c2, REPLACE(numbers, ',', ':') AS numbers FROM counter;
-
+SELECT * FROM counter;
 
 
