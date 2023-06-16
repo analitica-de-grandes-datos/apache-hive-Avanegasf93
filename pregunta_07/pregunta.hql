@@ -55,6 +55,7 @@ GROUP BY c2;
 -- Guardar el resultado en la carpeta "output" del directorio de trabajo
 INSERT OVERWRITE LOCAL DIRECTORY './output'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
-SELECT * FROM counter;
+SELECT c2, REPLACE(numbers, ',', ':') AS numbers FROM counter;
+
 
 
