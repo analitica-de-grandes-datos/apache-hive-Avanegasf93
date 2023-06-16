@@ -48,7 +48,7 @@ LOAD DATA LOCAL INPATH 'data1.csv' INTO TABLE tbl1;
 -- Crear una tabla temporal para contar los valores únicos de c2 junto con los valores correspondientes de c1
 DROP TABLE IF EXISTS counter;
 CREATE TABLE counter AS
-SELECT c2, CONCAT_WS(',', COLLECT_LIST(CAST(c1 AS STRING))) AS numbers
+SELECT c2, CONCAT_WS(':', COLLECT_LIST(CAST(c1 AS STRING))) AS numbers
 FROM tbl0
 GROUP BY c2;
 
